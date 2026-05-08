@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Dirty Stains";
+  src:
+    url("/fonts/DirtyStains.woff2") format("woff2"),
+    url("/fonts/DirtyStains.woff") format("woff"),
+    url("/fonts/DirtyStains.otf") format("opentype"),
+    url("/fonts/DirtyStains.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root,
+[data-theme="verde"] {
+  --color-bg: #39ff00;
+  --color-accent: #cc00ff;
+  --color-text: #0a0a0a;
+  --color-cta: #ffff00;
+  --color-cta-text: #0a0a0a;
+}
+
+[data-theme="fucsia"] {
+  --color-bg: #ff00a8;
+  --color-accent: #ffff00;
+  --color-text: #0a0a0a;
+  --color-cta: #000000;
+  --color-cta-text: #ffffff;
+}
+
+[data-theme="amarillo"] {
+  --color-bg: #ffff00;
+  --color-accent: #cc00ff;
+  --color-text: #0a0a0a;
+  --color-cta: #cc00ff;
+  --color-cta-text: #ffffff;
+}
+
+[data-theme="negro"] {
+  --color-bg: #0a0a0a;
+  --color-accent: #39ff00;
+  --color-text: #f5f5f5;
+  --color-cta: #39ff00;
+  --color-cta-text: #0a0a0a;
+}
+
+@theme inline {
+  --color-theme-bg: var(--color-bg);
+  --color-theme-accent: var(--color-accent);
+  --color-theme-text: var(--color-text);
+  --color-theme-cta: var(--color-cta);
+  --color-theme-cta-text: var(--color-cta-text);
+  --color-noir: #0a0a0a;
+
+  --font-display: "Dirty Stains", "Syne", system-ui, sans-serif;
+  --font-body: "Syne", system-ui, sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--color-bg);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}

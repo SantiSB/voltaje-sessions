@@ -1,0 +1,314 @@
+---
+import VTJLogo from "@/components/VTJLogo.astro";
+import { session } from "@/config/session";
+
+const { activa, copy, session: info } = session;
+
+const TITLE_TOP = "VOLTAJE";
+const TITLE_BOTTOM = "SESSIONS";
+const heroSubtitle = `${info.lugar} · ${info.fecha} · ${info.hora}`;
+const tagline = activa ? copy.tagline : copy.sesion_terminada;
+---
+
+<section
+  class="hero relative flex h-svh min-h-[640px] w-full overflow-hidden bg-[color:var(--color-bg)]"
+>
+  <svg
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 h-full w-full opacity-[0.22] mix-blend-multiply"
+  >
+    <filter id="hero-grain">
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency="0.85"
+        numOctaves="2"
+        stitchTiles="stitch"
+        seed="3"
+      ></feTurbulence>
+      <feColorMatrix
+        values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.7 0"
+      ></feColorMatrix>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#hero-grain)"></rect>
+  </svg>
+
+  <div
+    aria-hidden="true"
+    class="hero-scanline pointer-events-none absolute inset-x-0 z-[5]"
+  >
+  </div>
+
+  <div class="absolute left-6 top-6 z-20 sm:left-10 sm:top-10">
+    <VTJLogo size={120} />
+  </div>
+
+  <div
+    class="absolute right-6 top-8 z-20 hidden text-right font-display text-2xl uppercase leading-none text-[color:var(--color-text)] sm:block"
+  >
+    <span class="block">{info.fecha}</span>
+    <span class="block text-[color:var(--color-accent)]">{info.ciudad}</span>
+  </div>
+
+  <span
+    aria-hidden="true"
+    class="hero-watermark font-display pointer-events-none absolute -top-[4vh] right-[-6vw] z-[2] select-none text-[44vw] leading-[0.78] text-[color:var(--color-accent)] sm:right-[-2vw] sm:-top-12 md:text-[28vw]"
+  >
+    <span class="hero-watermark-inner block">{info.voltaje}</span>
+  </span>
+
+  <div
+    class="relative z-10 flex h-full w-full flex-col justify-center px-6 sm:px-10 md:px-16"
+  >
+    <h1
+      aria-label="Voltaje Sessions"
+      class="font-display relative z-10 text-[16vw] leading-[0.85] tracking-tight text-[color:var(--color-text)] sm:text-[14vw] md:text-[12vw]"
+    >
+      <span aria-hidden="true" class="hero-line block overflow-hidden">
+        {TITLE_TOP.split("").map((letter, i) => (<span class="hero-letter inline-block" style={`--i: ${i}`}>{letter}</span>))}
+      </span>
+      <span
+        aria-hidden="true"
+        class="hero-line block translate-x-[6vw] overflow-hidden text-[color:var(--color-accent)]"
+        data-direction="up"
+      >
+        {TITLE_BOTTOM.split("").map((letter, i) => (<span class="hero-letter inline-block" style={`--i: ${i}`}>{letter}</span>))}
+      </span>
+    </h1>
+
+    <p
+      class="hero-fade font-display mt-8 text-2xl uppercase tracking-wide text-[color:var(--color-text)] sm:text-3xl md:text-4xl"
+      style="--delay: 1.2s"
+    >
+      {tagline}
+    </p>
+
+    <p
+      class="hero-fade mt-3 max-w-md text-sm uppercase tracking-[0.3em] text-[color:var(--color-text)]/70"
+      style="--delay: 1.4s"
+    >
+      {heroSubtitle}
+    </p>
+
+    {
+      activa && (
+        <a
+          href={copy.cta_url}
+          target="_blank"
+          rel="noreferrer"
+          class="hero-fade hero-cta font-display group relative mt-10 inline-flex w-fit items-center gap-3 overflow-hidden border-4 border-[color:var(--color-text)] bg-[color:var(--color-cta)] px-8 py-4 text-2xl uppercase text-[color:var(--color-cta-text)] shadow-[8px_8px_0_0_var(--color-text)] transition-shadow duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-[color:var(--color-accent)] hover:shadow-[14px_14px_0_0_var(--color-accent)]"
+          style="--delay: 1.55s"
+        >
+          <span class="hero-cta-text relative z-10 transition-transform duration-300 group-hover:-translate-x-1">
+            {copy.cta_texto}
+          </span>
+          <span
+            aria-hidden="true"
+            class="hero-cta-arrow relative z-10 transition-transform duration-300 group-hover:translate-x-2"
+          >
+            →
+          </span>
+          <span
+            aria-hidden="true"
+            class="hero-cta-bar absolute bottom-0 left-0 h-1 w-full origin-left scale-x-0 bg-[color:var(--color-accent)] transition-transform duration-500 ease-out group-hover:scale-x-100"
+          />
+        </a>
+      )
+    }
+  </div>
+
+  <div
+    class="pointer-events-none absolute bottom-16 left-0 right-0 z-[6] hidden sm:block"
+  >
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 1200 60"
+      preserveAspectRatio="none"
+      class="h-12 w-full text-[color:var(--color-text)]/45"
+    >
+      <path
+        d="M0,30 L60,30 L78,12 L96,48 L114,30 L240,30 L260,16 L280,44 L300,30 L420,30 L440,8 L460,52 L480,30 L600,30 L620,18 L640,42 L660,30 L780,30 L800,12 L820,48 L840,30 L960,30 L980,20 L1000,40 L1020,30 L1140,30 L1160,16 L1180,44 L1200,30"
+        stroke="currentColor"
+        stroke-width="1.5"
+        fill="none"
+        stroke-dasharray="6 4"
+      >
+        <animate
+          attributeName="stroke-dashoffset"
+          from="0"
+          to="-20"
+          dur="1.4s"
+          repeatCount="indefinite"
+        ></animate>
+      </path>
+    </svg>
+  </div>
+
+  <div
+    class="pointer-events-none absolute bottom-6 left-6 right-6 z-20 flex items-end justify-between text-[color:var(--color-text)]/70 sm:left-10 sm:right-10"
+  >
+    <span class="font-display text-sm uppercase tracking-[0.4em] sm:text-base">
+      ↓ Conduce
+    </span>
+    <span
+      class="font-display hidden text-xs uppercase tracking-[0.4em] sm:inline"
+    >
+      {info.lugar}
+    </span>
+  </div>
+
+  <span
+    aria-hidden="true"
+    class="pointer-events-none absolute right-3 top-1/2 z-[6] -translate-y-1/2 select-none font-display text-[10px] uppercase tracking-[0.5em] text-[color:var(--color-text)]/40 [writing-mode:vertical-rl]"
+  >
+    REC · {info.fecha}
+  </span>
+</section>
+
+<style>
+  .hero-letter {
+    animation: hero-letter-down 0.7s cubic-bezier(0.16, 0.84, 0.32, 1) backwards;
+    animation-delay: calc(0.35s + var(--i) * 0.045s);
+  }
+  .hero-line[data-direction="up"] .hero-letter {
+    animation-name: hero-letter-up;
+    animation-delay: calc(0.5s + var(--i) * 0.045s);
+  }
+
+  @keyframes hero-letter-down {
+    from {
+      transform: translateY(-115%) rotate(-6deg);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0) rotate(0);
+      opacity: 1;
+    }
+  }
+  @keyframes hero-letter-up {
+    from {
+      transform: translateY(115%) rotate(6deg);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0) rotate(0);
+      opacity: 1;
+    }
+  }
+
+  .hero-fade {
+    animation: hero-fade-up 0.6s cubic-bezier(0.16, 0.84, 0.32, 1) backwards;
+    animation-delay: var(--delay, 0s);
+  }
+  @keyframes hero-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-watermark {
+    opacity: 0.22;
+  }
+  .hero-watermark-inner {
+    animation: hero-watermark-glitch 9s linear infinite;
+    animation-delay: 4s;
+  }
+  @keyframes hero-watermark-glitch {
+    0%,
+    91%,
+    100% {
+      translate: 0 0;
+      filter: none;
+    }
+    93% {
+      translate: -10px 0;
+      filter: drop-shadow(4px 0 var(--color-accent))
+        drop-shadow(-4px 0 var(--color-cta));
+    }
+    95% {
+      translate: 8px 0;
+      filter: drop-shadow(-3px 0 var(--color-cta));
+    }
+    97% {
+      translate: -2px 0;
+      filter: none;
+    }
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .hero-watermark {
+      animation: hero-watermark-parallax linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 100vh;
+    }
+  }
+  @keyframes hero-watermark-parallax {
+    from {
+      rotate: -2deg;
+      scale: 1;
+      translate: 0 0;
+      opacity: 0.22;
+    }
+    to {
+      rotate: 6deg;
+      scale: 1.18;
+      translate: 0 -22%;
+      opacity: 0.04;
+    }
+  }
+
+  .hero-scanline {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-accent) 30%,
+      var(--color-accent) 70%,
+      transparent
+    );
+    box-shadow: 0 0 14px var(--color-accent);
+    opacity: 0.55;
+    animation: hero-scan 7s ease-in-out infinite;
+    top: 8%;
+  }
+  @keyframes hero-scan {
+    0%,
+    100% {
+      top: 8%;
+      opacity: 0.6;
+    }
+    45% {
+      top: 92%;
+      opacity: 0.25;
+    }
+    55% {
+      top: 92%;
+      opacity: 0.6;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-letter,
+    .hero-fade,
+    .hero-watermark,
+    .hero-watermark-inner,
+    .hero-scanline {
+      animation: none !important;
+    }
+    .hero-letter {
+      transform: none;
+      opacity: 1;
+    }
+    .hero-fade {
+      transform: none;
+      opacity: 1;
+    }
+    .hero-scanline {
+      top: 50%;
+    }
+  }
+</style>

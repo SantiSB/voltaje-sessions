@@ -1,0 +1,24 @@
+---
+import { Image } from "astro:assets";
+import logoVtj from "@/assets/images/brand/logo-vtj.png";
+
+interface Props {
+  size?: number;
+  class?: string;
+  loading?: "eager" | "lazy";
+}
+
+const { size = 96, class: className = "", loading = "eager" } = Astro.props;
+---
+
+<Image
+  src={logoVtj}
+  alt="Voltaje Sessions"
+  width={size}
+  height={size}
+  densities={[1, 2]}
+  loading={loading}
+  decoding="async"
+  class={`block h-auto select-none ${className}`}
+  style={`width: ${size}px;`}
+/>

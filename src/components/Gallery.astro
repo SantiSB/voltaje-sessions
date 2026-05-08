@@ -1,0 +1,215 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import archivo01 from "@/assets/images/archivo-01.jpg";
+import archivo02 from "@/assets/images/archivo-02.jpg";
+import archivo03 from "@/assets/images/archivo-03.jpg";
+import archivo04 from "@/assets/images/archivo-04.jpg";
+import archivo05 from "@/assets/images/archivo-05.jpg";
+import archivo06 from "@/assets/images/archivo-06.jpg";
+import archivo07 from "@/assets/images/archivo-07.jpg";
+import archivo08 from "@/assets/images/archivo-08.jpg";
+import archivo09 from "@/assets/images/archivo-09.jpg";
+import archivo10 from "@/assets/images/archivo-10.jpg";
+import { session } from "@/config/session";
+
+const { session: info } = session;
+
+interface ImageTile {
+  type: "image";
+  src: ImageMetadata;
+  alt: string;
+  caption: string;
+  span: string;
+  rotate: string;
+  priority?: boolean;
+}
+
+interface TextTile {
+  type: "text";
+  text: string;
+  subtext: string;
+  span: string;
+  rotate: string;
+}
+
+type Tile = ImageTile | TextTile;
+
+const tiles: Tile[] = [
+  {
+    type: "image",
+    src: archivo01,
+    alt: "Multitud con manos arriba en la pista",
+    caption: "Pista",
+    span: "col-span-12 row-span-2 sm:col-span-8",
+    rotate: "-rotate-1",
+    priority: true,
+  },
+  {
+    type: "text",
+    text: info.voltaje,
+    subtext: info.fecha,
+    span: "col-span-12 sm:col-span-4",
+    rotate: "rotate-1",
+  },
+  {
+    type: "image",
+    src: archivo02,
+    alt: "DJ con auriculares detrás de la mezcladora",
+    caption: "Silueta",
+    span: "col-span-7 sm:col-span-4",
+    rotate: "rotate-2",
+  },
+  {
+    type: "image",
+    src: archivo03,
+    alt: "Persona con gafas oscuras entre la multitud",
+    caption: "Mirada",
+    span: "col-span-5 sm:col-span-4",
+    rotate: "-rotate-2",
+  },
+  {
+    type: "image",
+    src: archivo04,
+    alt: "DJ junto a invitada en cabina",
+    caption: "Duo",
+    span: "col-span-5 sm:col-span-4",
+    rotate: "rotate-1",
+  },
+  {
+    type: "image",
+    src: archivo05,
+    alt: "Persona sonriendo con teléfono",
+    caption: "Cuerpo",
+    span: "col-span-7 sm:col-span-4",
+    rotate: "-rotate-1",
+  },
+  {
+    type: "image",
+    src: archivo06,
+    alt: "Retrato con chaqueta de cuero",
+    caption: "Presencia",
+    span: "col-span-12 sm:col-span-4",
+    rotate: "rotate-2",
+  },
+  {
+    type: "image",
+    src: archivo07,
+    alt: "Retrato con ojos cerrados",
+    caption: "Trance",
+    span: "col-span-6 sm:col-span-4",
+    rotate: "-rotate-1",
+  },
+  {
+    type: "image",
+    src: archivo08,
+    alt: "Multitud bailando",
+    caption: "Multitud",
+    span: "col-span-6 sm:col-span-4",
+    rotate: "rotate-1",
+  },
+  {
+    type: "image",
+    src: archivo09,
+    alt: "Manos sobre mezcladora Pioneer",
+    caption: "Manos",
+    span: "col-span-7 sm:col-span-7",
+    rotate: "-rotate-2",
+  },
+  {
+    type: "image",
+    src: archivo10,
+    alt: "DJ con auriculares y capucha",
+    caption: "Cabina",
+    span: "col-span-5 sm:col-span-5",
+    rotate: "rotate-1",
+  },
+];
+---
+
+<section class="relative overflow-hidden bg-[#0A0A0A] py-24 sm:py-32">
+  <div class="mx-auto flex max-w-[1400px] flex-col gap-12 px-6 sm:px-10">
+    <header class="flex items-end justify-between gap-6">
+      <div>
+        <p
+          class="font-display text-[color:var(--color-accent)] text-sm uppercase tracking-[0.4em]"
+        >
+          /04 · Archivo
+        </p>
+        <h2
+          class="font-display mt-3 text-5xl uppercase leading-none text-white sm:text-7xl"
+        >
+          Sesiones
+          <span class="block text-[color:var(--color-accent)]">anteriores</span>
+        </h2>
+      </div>
+      <span class="font-display hidden text-xl uppercase text-white/40 sm:block">
+        {info.voltaje} · {info.ciudad}
+      </span>
+    </header>
+
+    <div
+      class="grid auto-rows-[20vh] grid-cols-12 gap-3 sm:auto-rows-[24vh] sm:gap-4"
+    >
+      {
+        tiles.map((tile, idx) => {
+          const idxLabel = (idx + 1).toString().padStart(2, "0");
+          const baseClasses = `tile group relative overflow-hidden border-2 border-white/10 ${tile.span} ${tile.rotate} transition-all duration-500 hover:rotate-0 hover:border-[color:var(--color-accent)] hover:z-10`;
+
+          if (tile.type === "image") {
+            return (
+              <figure class={baseClasses}>
+                <Image
+                  src={tile.src}
+                  alt={tile.alt}
+                  widths={[480, 800, 1200]}
+                  sizes="(min-width: 1400px) 720px, (min-width: 640px) 60vw, 100vw"
+                  loading={tile.priority ? "eager" : "lazy"}
+                  decoding="async"
+                  class="h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-[1.04]"
+                />
+                <span
+                  aria-hidden="true"
+                  class="pointer-events-none absolute inset-0 bg-[color:var(--color-accent)] opacity-0 mix-blend-multiply transition-opacity duration-500 group-hover:opacity-30"
+                />
+                <figcaption class="font-display absolute bottom-3 left-3 text-xs uppercase tracking-[0.3em] text-white mix-blend-difference">
+                  {tile.caption}
+                </figcaption>
+                <span class="font-display pointer-events-none absolute right-3 top-3 text-xs uppercase tracking-[0.3em] text-white/70 mix-blend-difference">
+                  {idxLabel}
+                </span>
+              </figure>
+            );
+          }
+
+          return (
+            <div
+              class={`${baseClasses} flex flex-col items-center justify-center bg-[color:var(--color-accent)] text-center text-[#0A0A0A]`}
+            >
+              <span class="font-display text-[18vw] uppercase leading-none sm:text-8xl md:text-9xl">
+                {tile.text}
+              </span>
+              <span class="font-display mt-2 text-xs uppercase tracking-[0.4em] sm:text-sm">
+                {tile.subtext}
+              </span>
+            </div>
+          );
+        })
+      }
+    </div>
+
+    <p
+      class="font-display max-w-3xl text-3xl uppercase leading-tight text-white/70 sm:text-5xl"
+    >
+      Cada sesión deja un voltaje distinto en el cuerpo.
+    </p>
+  </div>
+</section>
+
+<style>
+  .tile {
+    transition-property:
+      transform, border-color, box-shadow, filter;
+    will-change: transform;
+  }
+</style>

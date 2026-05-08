@@ -1,0 +1,76 @@
+---
+import { ArtistList } from "@/components/ArtistList";
+import { session } from "@/config/session";
+
+const { session: info, artistas, copy } = session;
+const voltajeNumber = info.voltaje.replace(/[^0-9]/g, "");
+const descripcionLines = copy.descripcion.split("\n");
+---
+
+<section class="relative overflow-hidden bg-[#0A0A0A] text-white">
+  <span
+    aria-hidden="true"
+    class="font-display pointer-events-none absolute -bottom-10 -right-6 select-none text-[60vw] leading-[0.78] text-white/[0.06] sm:-bottom-20 sm:text-[44vw] md:text-[36vw]"
+  >
+    {voltajeNumber}
+  </span>
+
+  <div
+    class="relative z-10 mx-auto grid max-w-[1400px] grid-cols-1 gap-16 px-6 py-24 sm:px-10 lg:grid-cols-12 lg:gap-12 lg:py-32"
+  >
+    <div class="lg:col-span-5 lg:col-start-1">
+      <p
+        class="font-display text-[color:var(--color-accent)] text-sm uppercase tracking-[0.4em]"
+      >
+        /02 · Sesión
+      </p>
+      <p class="font-display mt-3 text-[28vw] uppercase leading-[0.8] sm:text-[14vw] md:text-[12vw] lg:text-[9vw]">
+        {info.voltaje}
+      </p>
+      <p class="font-display mt-2 text-2xl uppercase text-white/70">
+        {info.nombre}
+      </p>
+
+      <dl class="mt-12 space-y-6 text-lg uppercase">
+        <div class="group/info border-l-2 border-white/10 pl-4 transition-colors duration-300 hover:border-[color:var(--color-accent)]">
+          <dt class="text-xs uppercase tracking-[0.4em] text-[color:var(--color-accent)]">
+            Fecha
+          </dt>
+          <dd class="font-display mt-1 text-3xl">{info.fecha}</dd>
+        </div>
+        <div class="group/info border-l-2 border-white/10 pl-4 transition-colors duration-300 hover:border-[color:var(--color-accent)]">
+          <dt class="text-xs uppercase tracking-[0.4em] text-[color:var(--color-accent)]">
+            Hora
+          </dt>
+          <dd class="font-display mt-1 text-3xl">{info.hora}</dd>
+        </div>
+        <div class="group/info border-l-2 border-white/10 pl-4 transition-colors duration-300 hover:border-[color:var(--color-accent)]">
+          <dt class="text-xs uppercase tracking-[0.4em] text-[color:var(--color-accent)]">
+            Lugar
+          </dt>
+          <dd class="font-display mt-1 text-3xl">{info.lugar}</dd>
+          <dd class="mt-1 text-sm normal-case text-white/60">
+            {info.direccion} · {info.ciudad}
+          </dd>
+        </div>
+      </dl>
+
+      <p
+        class="mt-12 max-w-md whitespace-pre-line text-lg leading-relaxed text-white/80"
+      >
+        {descripcionLines.join("\n")}
+      </p>
+    </div>
+
+    <div class="lg:col-span-7 lg:col-start-6">
+      <p
+        class="font-display text-[color:var(--color-accent)] text-sm uppercase tracking-[0.4em]"
+      >
+        Line up
+      </p>
+      <div class="mt-6">
+        <ArtistList client:load artists={artistas} />
+      </div>
+    </div>
+  </div>
+</section>
