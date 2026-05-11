@@ -6,7 +6,6 @@ const { activa, copy, session: info } = session;
 
 const TITLE_TOP = "VOLTAJE";
 const TITLE_BOTTOM = "SESSIONS";
-const heroSubtitle = `${info.lugar} · ${info.fecha} · ${info.hora}`;
 const tagline = activa ? copy.tagline : copy.sesion_terminada;
 ---
 
@@ -82,12 +81,13 @@ const tagline = activa ? copy.tagline : copy.sesion_terminada;
       {tagline}
     </p>
 
-    <p
+    <div
       class="hero-fade mt-3 max-w-md text-sm uppercase tracking-[0.3em] text-[color:var(--color-text)]/70"
       style="--delay: 1.4s"
     >
-      {heroSubtitle}
-    </p>
+      <span class="block break-words">{info.lugar}</span>
+      <span class="mt-1 block break-words">{info.fecha} · {info.hora}</span>
+    </div>
 
     {
       activa && (

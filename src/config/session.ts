@@ -49,7 +49,10 @@ export type BoleteriaTierId = "early" | "anytime" | "taquilla";
 export interface BoleteriaTier {
   id: BoleteriaTierId;
   nombre: string;
-  precio: number;
+  /** Valor de la entrada sin comisión PASSTIX */
+  valorEntrada: number;
+  /** Comisión de servicio PASSTIX por entrada */
+  servicioPasstix: number;
   descripcion: string;
   condicion?: string;
   horaLimite?: string;
@@ -60,7 +63,10 @@ export interface BoleteriaCombo {
   id: string;
   baseId: BoleteriaTierId;
   nombre: string;
-  precio: number;
+  /** Suma del valor de las entradas del combo (sin comisión) */
+  valorEntradas: number;
+  /** Comisión de servicio PASSTIX del combo */
+  servicioPasstix: number;
   cantidad: number;
   pagan: number;
 }
@@ -164,25 +170,22 @@ export const session: SessionConfig = {
     { nombre: "Moob", rol: "DJ", instagram: "mobkhun" },
     {
       nombre: "Neath",
-      nombreReal: "Camilo Andrés Del Real Támara",
       rol: "DJ",
       instagram: "i_neath_u",
     },
     {
       nombre: "Red Dahlia",
-      nombreReal: "Mariana Marañón Lineros",
       rol: "DJ",
       instagram: "reddahlia__",
     },
     {
       nombre: "Luke",
-      nombreReal: "Andrés Felipe Luque",
       rol: "DJ",
       instagram: "luke_ddj",
     },
   ],
 
-  aliados: ["Berraco Gastrobar", "JASP"],
+  aliados: ["Berraco Gastrobar"],
 
   copy: {
     tagline: "Una sola presencia.",
@@ -193,7 +196,7 @@ export const session: SessionConfig = {
     ],
     descripcion:
       "Desde Bogotá hasta Pasto.\n3 DJs, 3 géneros, 1 mismo lenguaje: el baile.",
-    cta_texto: "Comprar en voltajesessions.com",
+    cta_texto: "Comprar",
     cta_url: BUY_URL,
     cta_secundario_texto: "Ver boletería",
     cta_secundario_url: "#boleteria",
@@ -208,7 +211,8 @@ export const session: SessionConfig = {
       {
         id: "early",
         nombre: "Early Entrance",
-        precio: 25000,
+        valorEntrada: 22000,
+        servicioPasstix: 3000,
         descripcion: "La más económica. Para los que abren la pista.",
         condicion: "Válida solo hasta la hora indicada.",
         horaLimite: "10:30 PM",
@@ -216,14 +220,16 @@ export const session: SessionConfig = {
       {
         id: "anytime",
         nombre: "Anytime",
-        precio: 35000,
+        valorEntrada: 30000,
+        servicioPasstix: 5000,
         descripcion: "Entra a la hora que quieras. Preventa principal.",
         destacado: true,
       },
       {
         id: "taquilla",
         nombre: "Taquilla",
-        precio: 50000,
+        valorEntrada: 48000,
+        servicioPasstix: 2000,
         descripcion: "En puerta el día del evento.",
       },
     ],
@@ -232,7 +238,8 @@ export const session: SessionConfig = {
         id: "early-x4",
         baseId: "early",
         nombre: "Combo Early x4",
-        precio: 75000,
+        valorEntradas: 66000,
+        servicioPasstix: 9000,
         cantidad: 4,
         pagan: 3,
       },
@@ -240,7 +247,8 @@ export const session: SessionConfig = {
         id: "anytime-x4",
         baseId: "anytime",
         nombre: "Combo Anytime x4",
-        precio: 105000,
+        valorEntradas: 90000,
+        servicioPasstix: 15000,
         cantidad: 4,
         pagan: 3,
       },
@@ -248,7 +256,8 @@ export const session: SessionConfig = {
         id: "taquilla-x4",
         baseId: "taquilla",
         nombre: "Combo Taquilla x4",
-        precio: 150000,
+        valorEntradas: 144000,
+        servicioPasstix: 6000,
         cantidad: 4,
         pagan: 3,
       },
@@ -263,14 +272,14 @@ export const session: SessionConfig = {
       "Pago seguro en voltajesessions.com.",
     ],
     ctaPrimario: {
-      texto: "Comprar en voltajesessions.com",
+      texto: "Comprar",
       url: BUY_URL,
     },
     ctaSecundario: {
       texto: "Ver boletería",
       url: "#boleteria",
     },
-    comboNota: "Combos x4: pagan 3 y entran 4.",
+    comboNota: "Combos x4 — pagan 3 y entran 4.",
     earlyNota:
       "Válida solo hasta la hora indicada. Después de esa hora puede aplicar ajuste en puerta.",
   },

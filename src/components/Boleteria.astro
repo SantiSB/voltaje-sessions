@@ -1,9 +1,23 @@
 ---
+import type { BoleteriaCombo, BoleteriaTier } from "@/config/session";
 import { session, formatCOP } from "@/config/session";
 
 const { boleteria, session: info } = session;
 const earlyTier = boleteria.tiers.find((t) => t.id === "early");
 const earlyHora = earlyTier?.horaLimite ?? "";
+
+const getTierTotalUsuario = (tier: BoleteriaTier): number =>
+  tier.valorEntrada + tier.servicioPasstix;
+
+const getComboTotalUsuario = (combo: BoleteriaCombo): number =>
+  combo.valorEntradas + combo.servicioPasstix;
+
+const tableHeadClass =
+  "font-display border-b-2 border-white/20 px-4 py-3 text-left text-[10px] uppercase tracking-[0.28em] text-white/60 sm:px-5 sm:text-xs sm:tracking-[0.32em]";
+const tableCellClass =
+  "border-b border-white/10 px-4 py-4 text-sm text-white/90 sm:px-5 sm:text-base";
+const tableCellNumClass = `${tableCellClass} text-right font-display tabular-nums tracking-tight`;
+const tableCellTotalClass = `${tableCellNumClass} text-[color:var(--color-accent)] text-lg sm:text-xl`;
 ---
 
 <section
@@ -39,92 +53,149 @@ const earlyHora = earlyTier?.horaLimite ?? "";
       </p>
     </header>
 
-    <ul
-      role="list"
-      class="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5"
-    >
-      {
-        boleteria.tiers.map((tier, idx) => {
-          const isHighlight = tier.destacado === true;
-          const indexLabel = (idx + 1).toString().padStart(2, "0");
-          return (
-            <li
-              class={`group relative flex flex-col justify-between gap-6 border-2 p-6 transition-colors duration-300 sm:p-7 ${
-                isHighlight
-                  ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent)]/[0.08]"
-                  : "border-white/15 hover:border-[color:var(--color-accent)]"
-              }`}
-            >
-              <div class="flex items-start justify-between gap-4">
-                <div>
-                  <p class="font-display text-xs uppercase tracking-[0.35em] text-white/50">
-                    {indexLabel}
-                  </p>
-                  <p class="font-display mt-2 text-3xl uppercase leading-none sm:text-4xl">
-                    {tier.nombre}
-                  </p>
-                </div>
-                {isHighlight ? (
-                  <span class="font-display shrink-0 border border-[color:var(--color-accent)] px-2 py-1 text-[10px] uppercase tracking-[0.3em] text-[color:var(--color-accent)]">
-                    Recomendada
-                  </span>
-                ) : null}
-              </div>
+    <div class="flex flex-col gap-4">
+      <p class="font-display text-xl uppercase leading-tight text-white sm:text-2xl">
+        Valores
+      </p>
+      <p class="max-w-2xl text-sm leading-relaxed text-white/70 sm:text-base">
+        El total que pagas es
+        <span class="text-white">boleta + servicio PASSTIX</span>
+        (entrada más comisión de plataforma).
+      </p>
 
-              <p class="font-display text-[color:var(--color-accent)] text-5xl leading-none sm:text-6xl">
-                {formatCOP(tier.precio)}
-              </p>
-
-              <div class="flex flex-col gap-2 text-sm leading-relaxed text-white/75">
-                <p>{tier.descripcion}</p>
-                {tier.condicion ? (
-                  <p class="text-xs uppercase tracking-[0.25em] text-white/55">
-                    {tier.condicion}
-                    {tier.horaLimite ? ` · Hasta ${tier.horaLimite}` : ""}
-                  </p>
-                ) : null}
-              </div>
-            </li>
-          );
-        })
-      }
-    </ul>
-
-    <div class="flex flex-col gap-6">
-      <div class="flex items-end justify-between gap-4">
-        <p
-          class="font-display text-2xl uppercase leading-none sm:text-3xl"
-        >
-          Combos x4
-          <span class="block text-[color:var(--color-accent)]">pagan 3 · entran 4</span>
-        </p>
-        <p class="font-display hidden text-xs uppercase tracking-[0.4em] text-white/45 sm:block">
-          /grupo
-        </p>
+      <div class="-mx-6 overflow-x-auto px-6 sm:mx-0 sm:px-0">
+        <table class="w-full min-w-[520px] border-collapse text-left">
+          <caption class="sr-only">
+            Precios por tipo de entrada: valor de la entrada, servicio PASSTIX y total.
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col" class={tableHeadClass}>Entrada</th>
+              <th scope="col" class={`${tableHeadClass} text-right`}>Valor entrada</th>
+              <th scope="col" class={`${tableHeadClass} text-right`}>Servicio PASSTIX</th>
+              <th scope="col" class={`${tableHeadClass} text-right`}>
+                Total usuario paga
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              boleteria.tiers.map((tier) => {
+                const total = getTierTotalUsuario(tier);
+                const rowHighlight =
+                  tier.destacado === true
+                    ? "bg-[color:var(--color-accent)]/[0.08]"
+                    : "";
+                return (
+                  <tr class={`transition-colors duration-200 ${rowHighlight}`}>
+                    <th scope="row" class={`${tableCellClass} font-display text-base uppercase sm:text-lg`}>
+                      <span class="flex flex-col gap-1">
+                        <span>{tier.nombre}</span>
+                        {tier.destacado ? (
+                          <span class="font-display w-fit border border-[color:var(--color-accent)] px-2 py-0.5 text-[9px] uppercase tracking-[0.28em] text-[color:var(--color-accent)]">
+                            Recomendada
+                          </span>
+                        ) : null}
+                      </span>
+                    </th>
+                    <td class={tableCellNumClass}>{formatCOP(tier.valorEntrada)}</td>
+                    <td class={tableCellNumClass}>{formatCOP(tier.servicioPasstix)}</td>
+                    <td class={tableCellTotalClass}>
+                      <span class="flex flex-col items-end gap-0.5">
+                        <span>{formatCOP(total)}</span>
+                        <span class="font-sans text-[10px] font-normal normal-case tracking-normal text-white/45 sm:text-xs">
+                          (boleta + servicio)
+                        </span>
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </table>
       </div>
 
       <ul
         role="list"
-        class="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4"
+        class="grid grid-cols-1 gap-3 border-t border-white/10 pt-6 sm:grid-cols-3 sm:gap-4"
       >
         {
-          boleteria.combos.map((combo) => (
-            <li class="group relative flex items-center justify-between gap-4 border-2 border-white/10 bg-white/[0.02] p-5 transition-colors duration-300 hover:border-[color:var(--color-accent)]">
-              <div>
-                <p class="font-display text-xl uppercase leading-none sm:text-2xl">
-                  {combo.nombre}
-                </p>
-                <p class="mt-1 text-[11px] uppercase tracking-[0.3em] text-white/50">
-                  {combo.cantidad} entradas · pagan {combo.pagan}
-                </p>
-              </div>
-              <p class="font-display text-2xl text-[color:var(--color-accent)] sm:text-3xl">
-                {formatCOP(combo.precio)}
+          boleteria.tiers.map((tier) => (
+            <li class="text-sm leading-relaxed text-white/75">
+              <p class="font-display text-xs uppercase tracking-[0.3em] text-white/50">
+                {tier.nombre}
               </p>
+              <p class="mt-1">{tier.descripcion}</p>
+              {tier.condicion ? (
+                <p class="mt-2 text-xs uppercase tracking-[0.22em] text-white/50">
+                  {tier.condicion}
+                  {tier.horaLimite ? ` · Hasta ${tier.horaLimite}` : ""}
+                </p>
+              ) : null}
             </li>
           ))
         }
       </ul>
+    </div>
+
+    <div class="flex flex-col gap-6">
+      <div class="flex flex-col gap-2">
+        <p class="font-display text-2xl uppercase leading-tight sm:text-3xl">
+          Combos x4
+          <span class="text-[color:var(--color-accent)]"> — pagan 3 y entran 4</span>
+        </p>
+        <p class="font-display text-xs uppercase tracking-[0.35em] text-white/50 sm:text-sm">
+          /grupo
+        </p>
+      </div>
+
+      <div class="-mx-6 overflow-x-auto px-6 sm:mx-0 sm:px-0">
+        <table class="w-full min-w-[520px] border-collapse text-left">
+          <caption class="sr-only">
+            Precios de combos por cuatro entradas: valor de entradas, servicio PASSTIX y total.
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col" class={tableHeadClass}>Combo</th>
+              <th scope="col" class={`${tableHeadClass} text-right`}>Valor entradas</th>
+              <th scope="col" class={`${tableHeadClass} text-right`}>Servicio PASSTIX</th>
+              <th scope="col" class={`${tableHeadClass} text-right`}>
+                Total usuario paga
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              boleteria.combos.map((combo) => {
+                const total = getComboTotalUsuario(combo);
+                return (
+                  <tr class="transition-colors duration-200 hover:bg-white/[0.03]">
+                    <th scope="row" class={`${tableCellClass} font-display text-base uppercase sm:text-lg`}>
+                      <span class="flex flex-col gap-1">
+                        <span>{combo.nombre}</span>
+                        <span class="font-sans text-[10px] font-normal normal-case tracking-normal text-white/45 sm:text-xs">
+                          {combo.cantidad} entradas · pagan {combo.pagan}
+                        </span>
+                      </span>
+                    </th>
+                    <td class={tableCellNumClass}>{formatCOP(combo.valorEntradas)}</td>
+                    <td class={tableCellNumClass}>{formatCOP(combo.servicioPasstix)}</td>
+                    <td class={tableCellTotalClass}>
+                      <span class="flex flex-col items-end gap-0.5">
+                        <span>{formatCOP(total)}</span>
+                        <span class="font-sans text-[10px] font-normal normal-case tracking-normal text-white/45 sm:text-xs">
+                          (boleta + servicio)
+                        </span>
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div class="flex flex-col gap-6 border-t-2 border-white/10 pt-8">
