@@ -59,8 +59,8 @@ export const session: SessionConfig = {
   artistas: [
     { nombre: 'MOOB',           rol: 'DJ', instagram: 'mobkhun' },
     { nombre: 'NEATH',          rol: 'DJ', instagram: 'i_neath_u' },
-    { nombre: 'LUKE REDDAHLIA', rol: 'DJ', instagram: 'reddahlia__' },
-    { nombre: 'LUKE_DDJ',       rol: 'DJ', instagram: 'luke_ddj' },
+    { nombre: 'REDDAHLIA', rol: 'DJ', instagram: 'reddahlia__' },
+    { nombre: 'LUKE',       rol: 'DJ', instagram: 'luke_ddj' },
   ],
 
   aliados: ['Barraco Gastrobar', 'JASP'],

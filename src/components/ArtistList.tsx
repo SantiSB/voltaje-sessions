@@ -40,13 +40,20 @@ export const ArtistList = ({ artists }: ArtistListProps) => {
                 {indexLabel}
               </span>
 
-              <motion.span
+              <motion.div
                 variants={{ hover: { x: 14 } }}
                 transition={{ duration: 0.5, ease: EASE }}
-                className="font-display text-5xl uppercase leading-none text-white transition-colors duration-500 group-hover/artist:text-[#0A0A0A] sm:text-6xl md:text-7xl lg:text-[6.5vw]"
+                className="flex flex-col gap-1"
               >
-                {artist.nombre}
-              </motion.span>
+                <span className="font-display text-5xl uppercase leading-none text-white transition-colors duration-500 group-hover/artist:text-[#0A0A0A] sm:text-6xl md:text-7xl lg:text-[6.5vw]">
+                  {artist.nombre}
+                </span>
+                {artist.nombreReal ? (
+                  <span className="text-xs uppercase tracking-[0.3em] text-white/45 transition-colors duration-500 group-hover/artist:text-[#0A0A0A]/70 sm:text-sm">
+                    {artist.nombreReal}
+                  </span>
+                ) : null}
+              </motion.div>
 
               <motion.span
                 aria-hidden

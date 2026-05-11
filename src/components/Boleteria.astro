@@ -1,0 +1,160 @@
+---
+import { session, formatCOP } from "@/config/session";
+
+const { boleteria, session: info } = session;
+const earlyTier = boleteria.tiers.find((t) => t.id === "early");
+const earlyHora = earlyTier?.horaLimite ?? "";
+---
+
+<section
+  id="boleteria"
+  class="relative overflow-hidden bg-[#0A0A0A] text-white"
+  aria-labelledby="boleteria-title"
+>
+  <span
+    aria-hidden="true"
+    class="font-display pointer-events-none absolute -left-6 top-8 select-none text-[34vw] leading-[0.78] text-[color:var(--color-accent)]/[0.08] sm:-left-8 sm:text-[22vw] md:text-[16vw]"
+  >
+    $
+  </span>
+
+  <div
+    class="relative z-10 mx-auto flex max-w-[1400px] flex-col gap-14 px-6 py-24 sm:px-10 sm:py-32"
+  >
+    <header class="flex flex-col gap-3">
+      <p
+        class="font-display text-sm uppercase tracking-[0.4em] text-[color:var(--color-accent)]"
+      >
+        /02 · Boletería
+      </p>
+      <h2
+        id="boleteria-title"
+        class="font-display text-5xl uppercase leading-[0.85] sm:text-7xl md:text-[8vw]"
+      >
+        Entradas
+        <span class="block text-[color:var(--color-accent)]">{info.voltaje}</span>
+      </h2>
+      <p class="max-w-md text-sm uppercase tracking-[0.3em] text-white/60 sm:text-base">
+        Preventa .com · Compra en voltajesessions.com
+      </p>
+    </header>
+
+    <ul
+      role="list"
+      class="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5"
+    >
+      {
+        boleteria.tiers.map((tier, idx) => {
+          const isHighlight = tier.destacado === true;
+          const indexLabel = (idx + 1).toString().padStart(2, "0");
+          return (
+            <li
+              class={`group relative flex flex-col justify-between gap-6 border-2 p-6 transition-colors duration-300 sm:p-7 ${
+                isHighlight
+                  ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent)]/[0.08]"
+                  : "border-white/15 hover:border-[color:var(--color-accent)]"
+              }`}
+            >
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="font-display text-xs uppercase tracking-[0.35em] text-white/50">
+                    {indexLabel}
+                  </p>
+                  <p class="font-display mt-2 text-3xl uppercase leading-none sm:text-4xl">
+                    {tier.nombre}
+                  </p>
+                </div>
+                {isHighlight ? (
+                  <span class="font-display shrink-0 border border-[color:var(--color-accent)] px-2 py-1 text-[10px] uppercase tracking-[0.3em] text-[color:var(--color-accent)]">
+                    Recomendada
+                  </span>
+                ) : null}
+              </div>
+
+              <p class="font-display text-[color:var(--color-accent)] text-5xl leading-none sm:text-6xl">
+                {formatCOP(tier.precio)}
+              </p>
+
+              <div class="flex flex-col gap-2 text-sm leading-relaxed text-white/75">
+                <p>{tier.descripcion}</p>
+                {tier.condicion ? (
+                  <p class="text-xs uppercase tracking-[0.25em] text-white/55">
+                    {tier.condicion}
+                    {tier.horaLimite ? ` · Hasta ${tier.horaLimite}` : ""}
+                  </p>
+                ) : null}
+              </div>
+            </li>
+          );
+        })
+      }
+    </ul>
+
+    <div class="flex flex-col gap-6">
+      <div class="flex items-end justify-between gap-4">
+        <p
+          class="font-display text-2xl uppercase leading-none sm:text-3xl"
+        >
+          Combos x4
+          <span class="block text-[color:var(--color-accent)]">pagan 3 · entran 4</span>
+        </p>
+        <p class="font-display hidden text-xs uppercase tracking-[0.4em] text-white/45 sm:block">
+          /grupo
+        </p>
+      </div>
+
+      <ul
+        role="list"
+        class="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4"
+      >
+        {
+          boleteria.combos.map((combo) => (
+            <li class="group relative flex items-center justify-between gap-4 border-2 border-white/10 bg-white/[0.02] p-5 transition-colors duration-300 hover:border-[color:var(--color-accent)]">
+              <div>
+                <p class="font-display text-xl uppercase leading-none sm:text-2xl">
+                  {combo.nombre}
+                </p>
+                <p class="mt-1 text-[11px] uppercase tracking-[0.3em] text-white/50">
+                  {combo.cantidad} entradas · pagan {combo.pagan}
+                </p>
+              </div>
+              <p class="font-display text-2xl text-[color:var(--color-accent)] sm:text-3xl">
+                {formatCOP(combo.precio)}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="flex flex-col gap-6 border-t-2 border-white/10 pt-8">
+      <ul role="list" class="flex flex-col gap-2 text-xs uppercase tracking-[0.3em] text-white/55 sm:text-sm">
+        <li>{boleteria.comboNota}</li>
+        <li>
+          Early Entrance: {boleteria.earlyNota}
+          {earlyHora ? ` (límite ${earlyHora})` : ""}
+        </li>
+      </ul>
+
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+        <a
+          href={boleteria.ctaPrimario.url}
+          target="_blank"
+          rel="noreferrer"
+          class="font-display group inline-flex w-full items-center justify-center gap-3 border-4 border-white bg-[color:var(--color-cta)] px-6 py-4 text-lg uppercase text-[color:var(--color-cta-text)] shadow-[6px_6px_0_0_var(--color-accent)] transition-shadow duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-[color:var(--color-accent)] hover:shadow-[10px_10px_0_0_var(--color-accent)] sm:w-auto sm:px-8 sm:text-xl"
+        >
+          <span class="transition-transform duration-300 group-hover:-translate-x-1">
+            {boleteria.ctaPrimario.texto}
+          </span>
+          <span aria-hidden="true" class="transition-transform duration-300 group-hover:translate-x-2">→</span>
+        </a>
+        <a
+          href={boleteria.ctaSecundario.url}
+          class="font-display inline-flex w-full items-center justify-center gap-2 border-2 border-white/30 px-6 py-4 text-sm uppercase tracking-[0.3em] text-white transition-colors duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-[color:var(--color-accent)] hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)] sm:w-auto"
+        >
+          {boleteria.ctaSecundario.texto}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

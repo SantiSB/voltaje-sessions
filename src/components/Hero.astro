@@ -91,27 +91,42 @@ const tagline = activa ? copy.tagline : copy.sesion_terminada;
 
     {
       activa && (
-        <a
-          href={copy.cta_url}
-          target="_blank"
-          rel="noreferrer"
-          class="hero-fade hero-cta font-display group relative mt-10 inline-flex w-fit items-center gap-3 overflow-hidden border-4 border-[color:var(--color-text)] bg-[color:var(--color-cta)] px-8 py-4 text-2xl uppercase text-[color:var(--color-cta-text)] shadow-[8px_8px_0_0_var(--color-text)] transition-shadow duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-[color:var(--color-accent)] hover:shadow-[14px_14px_0_0_var(--color-accent)]"
-          style="--delay: 1.55s"
-        >
-          <span class="hero-cta-text relative z-10 transition-transform duration-300 group-hover:-translate-x-1">
-            {copy.cta_texto}
-          </span>
-          <span
-            aria-hidden="true"
-            class="hero-cta-arrow relative z-10 transition-transform duration-300 group-hover:translate-x-2"
+        <div class="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+          <a
+            href={copy.cta_url}
+            target="_blank"
+            rel="noreferrer"
+            class="hero-fade hero-cta font-display group relative inline-flex w-fit items-center gap-3 overflow-hidden border-4 border-[color:var(--color-text)] bg-[color:var(--color-cta)] px-6 py-4 text-lg uppercase text-[color:var(--color-cta-text)] shadow-[8px_8px_0_0_var(--color-text)] transition-shadow duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-[color:var(--color-accent)] hover:shadow-[14px_14px_0_0_var(--color-accent)] sm:px-8 sm:text-2xl"
+            style="--delay: 1.55s"
           >
-            →
-          </span>
-          <span
-            aria-hidden="true"
-            class="hero-cta-bar absolute bottom-0 left-0 h-1 w-full origin-left scale-x-0 bg-[color:var(--color-accent)] transition-transform duration-500 ease-out group-hover:scale-x-100"
-          />
-        </a>
+            <span class="hero-cta-text relative z-10 transition-transform duration-300 group-hover:-translate-x-1">
+              {copy.cta_texto}
+            </span>
+            <span
+              aria-hidden="true"
+              class="hero-cta-arrow relative z-10 transition-transform duration-300 group-hover:translate-x-2"
+            >
+              →
+            </span>
+            <span
+              aria-hidden="true"
+              class="hero-cta-bar absolute bottom-0 left-0 h-1 w-full origin-left scale-x-0 bg-[color:var(--color-accent)] transition-transform duration-500 ease-out group-hover:scale-x-100"
+            />
+          </a>
+          <a
+            href={copy.cta_secundario_url}
+            class="hero-fade font-display group inline-flex w-fit items-center gap-2 border-b-2 border-[color:var(--color-text)]/40 pb-1 text-sm uppercase tracking-[0.3em] text-[color:var(--color-text)] transition-colors duration-300 hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[color:var(--color-accent)] sm:text-base"
+            style="--delay: 1.7s"
+          >
+            <span>{copy.cta_secundario_texto}</span>
+            <span
+              aria-hidden="true"
+              class="transition-transform duration-300 group-hover:translate-y-0.5"
+            >
+              ↓
+            </span>
+          </a>
+        </div>
       )
     }
   </div>
