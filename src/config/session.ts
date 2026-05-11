@@ -49,10 +49,7 @@ export type BoleteriaTierId = "early" | "anytime" | "taquilla";
 export interface BoleteriaTier {
   id: BoleteriaTierId;
   nombre: string;
-  /** Valor de la entrada sin comisión PASSTIX */
-  valorEntrada: number;
-  /** Comisión de servicio PASSTIX por entrada */
-  servicioPasstix: number;
+  precio: number;
   descripcion: string;
   condicion?: string;
   horaLimite?: string;
@@ -63,10 +60,7 @@ export interface BoleteriaCombo {
   id: string;
   baseId: BoleteriaTierId;
   nombre: string;
-  /** Suma del valor de las entradas del combo (sin comisión) */
-  valorEntradas: number;
-  /** Comisión de servicio PASSTIX del combo */
-  servicioPasstix: number;
+  precio: number;
   cantidad: number;
   pagan: number;
 }
@@ -211,8 +205,7 @@ export const session: SessionConfig = {
       {
         id: "early",
         nombre: "Early Entrance",
-        valorEntrada: 22000,
-        servicioPasstix: 3000,
+        precio: 25000,
         descripcion: "La más económica. Para los que abren la pista.",
         condicion: "Válida solo hasta la hora indicada.",
         horaLimite: "10:30 PM",
@@ -220,16 +213,14 @@ export const session: SessionConfig = {
       {
         id: "anytime",
         nombre: "Anytime",
-        valorEntrada: 30000,
-        servicioPasstix: 5000,
+        precio: 35000,
         descripcion: "Entra a la hora que quieras. Preventa principal.",
         destacado: true,
       },
       {
         id: "taquilla",
         nombre: "Taquilla",
-        valorEntrada: 48000,
-        servicioPasstix: 2000,
+        precio: 50000,
         descripcion: "En puerta el día del evento.",
       },
     ],
@@ -238,8 +229,7 @@ export const session: SessionConfig = {
         id: "early-x4",
         baseId: "early",
         nombre: "Combo Early x4",
-        valorEntradas: 66000,
-        servicioPasstix: 9000,
+        precio: 75000,
         cantidad: 4,
         pagan: 3,
       },
@@ -247,8 +237,7 @@ export const session: SessionConfig = {
         id: "anytime-x4",
         baseId: "anytime",
         nombre: "Combo Anytime x4",
-        valorEntradas: 90000,
-        servicioPasstix: 15000,
+        precio: 105000,
         cantidad: 4,
         pagan: 3,
       },
@@ -256,8 +245,7 @@ export const session: SessionConfig = {
         id: "taquilla-x4",
         baseId: "taquilla",
         nombre: "Combo Taquilla x4",
-        valorEntradas: 144000,
-        servicioPasstix: 6000,
+        precio: 150000,
         cantidad: 4,
         pagan: 3,
       },
