@@ -144,7 +144,7 @@ export const formatCOP = (amount: number): string =>
   `$${amount.toLocaleString("es-CO")}`;
 
 const SITE_URL = "https://voltajesessions.com";
-const BUY_URL = "https://wa.me/message/ZTZBZGTS6K5LI1";
+const BUY_URL = "https://passtix.co/eventos/voltaje-sessions-330v";
 
 export const session: SessionConfig = {
   theme: "verde",
@@ -257,7 +257,7 @@ export const session: SessionConfig = {
     },
     notas: [
       "Aforo total: 190 personas.",
-      "Pago seguro en voltajesessions.com.",
+      "Pago seguro en PassTix (passtix.co).",
     ],
     ctaPrimario: {
       texto: "Comprar",
