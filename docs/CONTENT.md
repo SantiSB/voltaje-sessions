@@ -72,7 +72,7 @@ export const session: SessionConfig = {
       'La música como corriente.',
       'La pista como circuito.',
     ],
-    descripcion: 'Desde Bogotá hasta Pasto.\n3 DJs, 3 géneros, 1 mismo lenguaje: el baile.',
+    descripcion: 'Desde Bogotá hasta Pasto.\n4 DJs, 1 mismo lenguaje: el baile.',
     cta_texto: 'Entradas',
     cta_url: '#',
     cierre: 'Voltaje no se escucha: se conduce.',
